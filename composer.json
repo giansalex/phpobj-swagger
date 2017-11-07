@@ -1,0 +1,16 @@
+{
+    "name": "giansalex/property-swagger",
+    "description": "Swagger",
+    "require": {
+        "greenter/core": "^1.0",
+        "symfony/property-info": "^3.3",
+        "phpdocumentor/reflection-docblock": "^3.2",
+        "symfony/yaml": "^3.3"
+    },
+    "authors": [
+        {
+            "name": "Giancarlos Salas",
+            "email": "giansalex@gmail.com"
+        }
+    ]
+}
