@@ -1,16 +1,30 @@
 {
-    "name": "giansalex/property-swagger",
-    "description": "Swagger",
-    "require": {
-        "greenter/core": "^1.0",
-        "symfony/property-info": "^3.3",
-        "phpdocumentor/reflection-docblock": "^3.2",
-        "symfony/yaml": "^3.3"
-    },
+    "name": "giansalex/swagger-objects",
+    "description": "PHP Object to Swagger Definitions",
+    "keywords": ["swagger", "php-objects", "swagger-definitions"],
+    "license": "MIT",
     "authors": [
         {
             "name": "Giancarlos Salas",
             "email": "giansalex@gmail.com"
         }
-    ]
+    ],
+    "type": "library",
+    "homepage": "https://github.com/giansalex/phpobj-swagger",
+    "require": {
+        "php": ">=5.5.9",
+        "symfony/property-info": "^3.3",
+        "phpdocumentor/reflection-docblock": "^3.2",
+        "symfony/yaml": "^3.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Giansalex\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    }
 }
