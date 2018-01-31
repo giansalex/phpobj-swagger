@@ -1,0 +1,21 @@
+language: php
+
+php:
+  - 5.6
+  - 7.0
+
+before_script:
+  - wget -O phpunit https://phar.phpunit.de/phpunit-5.phar
+  - chmod +x phpunit
+  - ./phpunit --version
+  - composer self-update
+  - composer install --prefer-source --no-interaction
+
+install:
+  - composer require jakub-onderka/php-parallel-lint
+
+script:
+  - mkdir -p build/logs
+  - vendor/bin/parallel-lint --exclude vendor .
+  - ./phpunit --configuration phpunit.xml.dist
+
