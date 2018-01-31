@@ -62,14 +62,21 @@ class Document
 }
 ```
 
-## Swagger Definition
-```yml
-definitions:
-  Document:
-    type: object
-    properties:
-      tipoDoc:
-        type: string
-      nroDoc:
-        type: string
+## Result
+```php
+[
+'definitions' => [
+    'Document' => [
+        'type' => 'object',
+        'properties' => [
+            'tipoDoc' => [
+                'type' => 'string'
+            ],
+            'nroDoc' => [
+                'type' => 'string'
+            ]
+        ]
+    ]
+  ]
+]
 ```
