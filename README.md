@@ -1,6 +1,13 @@
-# PHP Object - SWAGGER
+# PHP Object to SWAGGER
+[![Travis-CI](https://img.shields.io/travis/giansalex/phpobj-swagger.svg?branch=master&style=flat-square)](https://travis-ci.org/giansalex/phpobj-swagger)  
 
-PHP Objects to Swagger Definitions (Example)
+PHP Objects to Swagger Definitions.
+
+## Install
+Via Composer from [packagist.org](https://packagist.org/packages/giansalex/swagger-objects).
+```bash
+composer require giansalex/swagger-objects
+```
 
 ## Php object
 
