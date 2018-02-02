@@ -10,6 +10,7 @@ namespace Giansalex\PhpObject;
 use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\PropertyInfo\PropertyInfoExtractor;
+use Symfony\Component\PropertyInfo\Type;
 
 /**
  * Class Swagger
@@ -20,6 +21,11 @@ class Swagger
      * @var array
      */
     private $all;
+
+    /**
+     * @var array
+     */
+    private $mapTypes = ['int' => 'integer', 'bool' => 'boolean'];
 
     /**
      * @var PropertyInfoExtractor
@@ -102,22 +108,23 @@ class Swagger
                 exit();
             }
             foreach ($types as $type) {
-                /**@var $type \Symfony\Component\PropertyInfo\Type*/
+                /**@var $type Type*/
                 $tipo = $type->getBuiltinType();
                 if ($tipo == 'array') {
-                    $name = $this->registerClass($type->getCollectionValueType()->getClassName());
-                    $prop = ['type' => 'array', 'items' => ['$ref' => '#/definitions/'.$name]];
+
+                    $prop = ['type' => 'array', 'items' => $this->getItemArray($type)];
                 } elseif ($tipo == 'object') {
-                    if ($type->getClassName() == 'DateTimeInterface' || $type->getClassName() == 'DateTime') {
+                    $className = $type->getClassName();
+                    if ($this->isDateTime($className)) {
                         $prop = ['type' => 'string', 'format' => 'date-time'];
                     } else {
-                        $name = $this->registerClass($type->getClassName());
+                        $name = $this->registerClass($className);
                         $prop = ['$ref' => '#/definitions/'.$name];
                     }
                 } elseif ($tipo == 'float') {
                     $prop = ['type' => 'number', 'format' => 'float'];
                 } else {
-                    $prop = ['type' => $tipo];
+                    $prop = ['type' => $this->getValidType($tipo)];
                 }
 
                 $props[$property] = $prop;
@@ -131,7 +138,7 @@ class Swagger
      * @param string $class
      * @return string
      */
-    function registerClass($class)
+    private function registerClass($class)
     {
         $name = $this->getNameClass($class);
         if (isset($this->all[$name])) {
@@ -161,5 +168,45 @@ class Swagger
         $path = explode('\\', $class);
 
         return array_pop($path);
+    }
+
+    private function getItemArray(Type $type)
+    {
+        $typeCollection = $type->getCollectionValueType();
+        if (empty($typeCollection)) {
+            return ['type' => 'string'];
+        }
+
+        $className = $typeCollection->getClassName();
+        if ($className) {
+            $name = $this->registerClass($className);
+            $itemType = ['$ref' => '#/definitions/'.$name];
+        } else {
+            $type = $typeCollection->getBuiltinType();
+            $itemType = ['type' => $this->getValidType($type)];
+        }
+
+        return $itemType;
+    }
+
+    private function getValidType($type)
+    {
+        if (isset($this->mapTypes[$type])) {
+            return $this->mapTypes[$type];
+        }
+
+        return $type;
+    }
+
+    /**
+     * @param $className
+     * @return bool
+     */
+    private function isDateTime($className)
+    {
+        return
+            $className == 'DateTimeInterface' ||
+            $className == 'DateTime' ||
+            $className == 'DateTimeImmutable';
     }
 }
