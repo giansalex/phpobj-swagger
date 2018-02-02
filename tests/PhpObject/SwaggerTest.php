@@ -36,6 +36,9 @@ class SwaggerTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(isset($props['name']));
         $this->assertTrue(isset($props['date']));
         $this->assertTrue(isset($props['mount']));
+        $this->assertTrue(isset($props['valid']));
+        $this->assertTrue(isset($props['notes']));
+
     }
 
 }

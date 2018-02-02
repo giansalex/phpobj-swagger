@@ -29,7 +29,14 @@ class MyObject
      * @var float
      */
     private $mount;
-
+    /**
+     * @var bool
+     */
+    private $valid;
+    /**
+     * @var string[]
+     */
+    private $notes;
     /**
      * @return int
      */
@@ -99,6 +106,42 @@ class MyObject
     public function setMount($mount)
     {
         $this->mount = $mount;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isValid()
+    {
+        return $this->valid;
+    }
+
+    /**
+     * @param bool $valid
+     * @return MyObject
+     */
+    public function setValid($valid)
+    {
+        $this->valid = $valid;
+        return $this;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getNotes()
+    {
+        return $this->notes;
+    }
+
+    /**
+     * @param string[] $notes
+     * @return MyObject
+     */
+    public function setNotes($notes)
+    {
+        $this->notes = $notes;
         return $this;
     }
 }
