@@ -62,6 +62,14 @@ class Document
 }
 ```
 
+## Usage
+```php
+$swagger = new Swagger();
+$result = $swagger->fromClass(Document::class);
+
+var_dump();
+```
+
 ## Result
 ```php
 [
