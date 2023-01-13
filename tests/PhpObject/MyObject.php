@@ -14,6 +14,8 @@ namespace Tests\PhpObject;
 class MyObject
 {
     /**
+     * @deprecated use other instead.
+     *
      * @var int
      */
     private $id;

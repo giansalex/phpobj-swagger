@@ -27,10 +27,8 @@ class Swagger
      */
     private $mapTypes = ['int' => 'integer', 'bool' => 'boolean'];
 
-    /**
-     * @var PropertyInfoExtractor
-     */
-    private $extractor;
+    private PropertyInfoExtractor $extractor;
+    private DocBlockParser $docParser;
 
     /**
      * Swagger constructor.
@@ -38,6 +36,7 @@ class Swagger
     public function __construct()
     {
         $this->extractor = $this->getPropertyExtractor();
+        $this->docParser = new DocBlockParser();
     }
 
     /**
@@ -103,10 +102,11 @@ class Swagger
         $properties = $this->extractor->getProperties($class);
         foreach ($properties as $property) {
             $types = $this->extractor->getTypes($class, $property);
-
             if ($types == null) {
                 exit();
             }
+
+            $doc = $this->docParser->getDocBlock($class, $property);
             foreach ($types as $type) {
                 /**@var $type Type*/
                 $tipo = $type->getBuiltinType();
@@ -125,6 +125,10 @@ class Swagger
                     $prop = ['type' => 'number', 'format' => 'float'];
                 } else {
                     $prop = ['type' => $this->getValidType($tipo)];
+                }
+
+                if ($doc->hasTag('deprecated')) {
+                    $prop['deprecated'] = true;
                 }
 
                 $props[$property] = $prop;
