@@ -127,7 +127,7 @@ class Swagger
                     $prop = ['type' => $this->getValidType($tipo)];
                 }
 
-                if ($doc->hasTag('deprecated')) {
+                if ($doc && $doc->hasTag('deprecated')) {
                     $prop['deprecated'] = true;
                 }
 
