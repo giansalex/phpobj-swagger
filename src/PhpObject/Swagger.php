@@ -176,7 +176,7 @@ class Swagger
 
     private function getItemArray(Type $type, string $class)
     {
-        $typeCollection = $type->getCollectionValueType();
+        $typeCollection = $type->getCollectionValueTypes()[0];
         if (empty($typeCollection)) {
             return ['type' => 'string'];
         }
