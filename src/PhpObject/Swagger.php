@@ -112,7 +112,7 @@ class Swagger
                 $tipo = $type->getBuiltinType();
                 if ($tipo == 'array') {
 
-                    $prop = ['type' => 'array', 'items' => $this->getItemArray($type)];
+                    $prop = ['type' => 'array', 'items' => $this->getItemArray($type, $class)];
                 } elseif ($tipo == 'object') {
                     $className = $type->getClassName();
                     if ($this->isDateTime($className)) {
@@ -170,7 +170,7 @@ class Swagger
         return array_pop($path);
     }
 
-    private function getItemArray(Type $type)
+    private function getItemArray(Type $type, string $class)
     {
         $typeCollection = $type->getCollectionValueType();
         if (empty($typeCollection)) {
@@ -179,7 +179,7 @@ class Swagger
 
         $className = $typeCollection->getClassName();
         if ($className) {
-            $name = $this->registerClass($className);
+            $name = $className === $class ? $class : $this->registerClass($className);
             $itemType = ['$ref' => '#/definitions/'.$name];
         } else {
             $type = $typeCollection->getBuiltinType();
